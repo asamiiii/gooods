@@ -18,7 +18,7 @@ class _UserProductsState extends State<UserProducts> with UserProductsData {
     userAdsCubit.fetchUserAds(context, widget.userId, addOwnerCubit);
     super.initState();
   }
-
+String ownerImage="";
   @override
   Widget build(BuildContext context) {
     var user = context.watch<UserCubit>().state.model;
@@ -39,8 +39,10 @@ class _UserProductsState extends State<UserProducts> with UserProductsData {
     return BlocBuilder<AddOwnerCubit, AddOwnerState>(
       bloc: addOwnerCubit,
       builder: (context, state) {
+
         if (state is AddOwnerUpdated) {
           debugPrint(state.model!.toJson().toString());
+          ownerImage=state.model!.imgProfile;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -200,7 +202,7 @@ class _UserProductsState extends State<UserProducts> with UserProductsData {
         itemBuilder: (context, index) {
           return ProductRow(
             index: index,
-            model: products[index], adOwnerImg: '',
+            model: products[index], adOwnerImg: ownerImage,
           );
         },
       ),

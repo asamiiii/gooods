@@ -404,7 +404,31 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                   ),
                 ],
               )
-            : Text(parts[0]);
+            : found? Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: const BoxDecoration(color: Color(0xb32a3b55)),
+                child: Text(
+                  parts[0],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
+                child: Text(
+                  parts[1],
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ):Text(parts[0]);
       },
     );
   }
@@ -466,12 +490,12 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
               Expanded(
                 flex: 1,
                 child: Row(
-                  children: const [
-                    Icon(Icons.announcement,size: 20,),
-                    SizedBox(width: 10,),
+                  children:  [
+                    Icon(Icons.announcement,size: 20,color: MyColors.blackOpacity,),
+                    const SizedBox(width: 10,),
                     Text(
                       "رقم الاعلان",
-                      style: TextStyle(color: Color(0xff797979),fontWeight: FontWeight.bold),
+                      style: TextStyle(color: MyColors.blackOpacity,fontWeight: FontWeight.bold),
                     ),
                   ],
                 )
@@ -490,7 +514,7 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                     const Text(
                       "#",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),
+                      style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),
                     ),
                   ],)
                 ),
@@ -621,7 +645,7 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
             Icon(
               icon,
               size: 20,
-              color: Colors.black,
+              color: MyColors.blackOpacity,
             ),
             const SizedBox(width: 10),
             MyText(

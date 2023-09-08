@@ -17,7 +17,7 @@ class ProductRow extends StatelessWidget {
   final int index;
   final AdsModel model;
   final Color color;
-  final String adOwnerImg;
+  String adOwnerImg;
   int colorIndex=0;
   List colors = [
     Colors.red,
@@ -128,7 +128,8 @@ class ProductRow extends StatelessWidget {
                       CircleAvatar(
                         radius: 13,
                         backgroundColor: colors[colorIndex = random.nextInt(18)],
-                        child: Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
+                        backgroundImage: NetworkImage(adOwnerImg),
+                        child:adOwnerImg!=""?const SizedBox():Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
                           fontSize: 12
                         ),),
                       ),

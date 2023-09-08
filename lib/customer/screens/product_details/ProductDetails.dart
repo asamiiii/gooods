@@ -338,7 +338,7 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(descList.length, (index) {
-                return _buildDetailsItem(descList[index]);
+                return _buildDetailsItem(descList[index],fromApp);
               }),
             ),
             MyText(
@@ -351,7 +351,7 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
         visible: fromApp,
         replacement:Column(
           children: [
-            _buildDetailsItem(details),
+            _buildDetailsItem(details,fromApp),
           ],
         )
       ),
@@ -359,27 +359,85 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
   }
 
 // by Ahmed Fayez (Abo Hamza)
-  Widget _descTextFormat(String value) {
+  Widget _descTextFormat(String value,bool fromApp) {
     int idx = value.indexOf("؟");
     bool found=value.contains("حالة السيارة");
+    print("gffffffffff$fromApp");
+    List lines=value.split("\n");
     List parts = [];
-    if (idx > 1) {
-      parts = [
-        value.substring(0, idx - 1).trim(),
-        value.substring(idx + 1).trim()
-      ];
-    } else if(found){
-      parts = [value.substring(0,12),value.substring(13,value.length)];
-    }else{
-      parts = [value];
-    }
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 1,
-      itemBuilder: (BuildContext context, int index) {
-        return idx > 1
-            ? Row(
+    if(fromApp==false)
+      {
+        parts.clear();
+        print("herrrrrrrrrrrrrrr");
+        for(int i=0;i<lines.length;i++)
+        {
+          int idxx = lines[i].indexOf("؟");
+          bool found=lines[i].contains("حالة السيارة");
+          if (idxx > 1) {
+            parts.add( [
+              lines[i].substring(0, idxx - 1).trim(),
+              lines[i].substring(idxx + 1).trim()
+            ]);
+          } else if(found){
+            parts.add([lines[i].substring(0,12),lines[i].substring(13,lines[i].length)]);
+          }else{
+            parts.add([lines[i]]);
+          }
+        }
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: parts.length,
+          itemBuilder: (BuildContext context, int index) {
+            return parts[index].length==2? Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: const BoxDecoration(color: Color(0xb32a3b55)),
+                    child: Text(
+                      parts[index][0],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
+                    child: Text(
+                      parts[index][1],
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ) :Text(parts[index][0]);
+          }, separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 5,);
+        },
+        );
+
+      }else
+        {
+          if (idx > 1) {
+            parts = [
+              value.substring(0, idx - 1).trim(),
+              value.substring(idx + 1).trim()
+            ];
+          } else if(found){
+            parts = [value.substring(0,12),value.substring(13,value.length)];
+          }else{
+            parts = [value];
+          }
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 1,
+            itemBuilder: (BuildContext context, int index) {
+              return idx > 1
+                  ? Row(
                 children: [
                   Expanded(
                     flex: 1,
@@ -404,39 +462,40 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                   ),
                 ],
               )
-            : found? Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: const BoxDecoration(color: Color(0xb32a3b55)),
-                child: Text(
-                  parts[0],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
-                child: Text(
-                  parts[1],
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ],
-        ):Text(parts[0]);
-      },
-    );
+                  : found? Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      decoration: const BoxDecoration(color: Color(0xb32a3b55)),
+                      child: Text(
+                        parts[0],
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
+                      child: Text(
+                        parts[1],
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ):Text(parts[0]);
+            },
+          );
+        }
   }
 
-  Widget _buildDetailsItem(String value) {
+  Widget _buildDetailsItem(String value,bool fromApp) {
     return Container(
       margin: const EdgeInsets.only(top: 5),
-      child: _descTextFormat(value),
+      child: _descTextFormat(value,fromApp),
     );
   }
 

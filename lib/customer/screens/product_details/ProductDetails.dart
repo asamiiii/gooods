@@ -196,7 +196,7 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                     Row(children: [
                       const Icon(Icons.location_on_outlined,color:Colors.grey),
                       MyText(
-                        title: data.location!,
+                        title: data.location!.split(",")[0],
                         size: 12,
                         color: MyColors.grey,
                       ),
@@ -1226,13 +1226,26 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
       bloc: videoCubit,
       builder: (_, state) {
         if (state.data != null) {
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 20),
-            height: 300,
-            width: double.infinity,
-            child: Chewie(
-              controller: chewieController!,
-            ),
+          return Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                height: 300,
+                width: double.infinity,
+                child: Chewie(
+                  controller: chewieController!,
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width/3.5,bottom:MediaQuery.of(context).size.height/50 ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.asset('assets/images/logoWhite.png',
+                        height: 80, width: 80)),
+              ),
+
+            ],
           );
         } else {
           return Container();

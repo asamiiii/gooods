@@ -33,7 +33,7 @@ class TitleButton extends StatelessWidget {
               color: iconColor ?? Colors.black45,
             ),
         const    SizedBox(
-              width: 10,
+              width: 3,
             ),
             MyText(
               title: title,

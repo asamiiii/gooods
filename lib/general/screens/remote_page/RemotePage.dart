@@ -51,7 +51,6 @@ class _RemotePageState extends State<RemotePage> {
                   style: {
                     "p": Style(
                       fontSize: FontSize(18.0),
-                      textAlign: TextAlign.justify,
                     ),
                     "h6":Style(
                       fontSize: FontSize(14.0),

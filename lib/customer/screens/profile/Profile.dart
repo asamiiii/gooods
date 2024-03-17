@@ -59,11 +59,13 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.person_outline,
-                      size: 25,
-                      color: MyColors.black,
-                    ),
+                    child: CircleAvatar(
+                      radius: 15,
+                      backgroundImage: state.model.imgProfile != null? NetworkImage(state.model.imgProfile??'') : const NetworkImage(''),
+                          child: state.model.imgProfile == '' ? Text(state.model.userName !=null || state.model.userName!.isNotEmpty ? state.model.userName![0]:'G',textAlign:TextAlign.center,style: const TextStyle(
+                              fontSize: 12
+                          ),) : const SizedBox()
+                    )
                   ),
                   MyText(
                     title: state.model.userName!,

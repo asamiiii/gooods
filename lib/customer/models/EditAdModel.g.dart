@@ -12,6 +12,7 @@ EditAdModel _$EditAdModelFromJson(Map<String, dynamic> json) => EditAdModel(
       img: json['img'] as String,
       date: json['date'] as String,
       userName: json['userName'] as String,
+      userImage: json['userImage'] as String,
       location: json['location'] as String,
       lat: json['lat'] as String,
       lng: json['lng'] as String,
@@ -40,4 +41,5 @@ Map<String, dynamic> _$EditAdModelToJson(EditAdModel instance) =>
       'checkWishList': instance.checkWishList,
       'allImg': instance.allImg,
       'adsInfo': instance.info,
+      'userImage':instance.userImage
     };

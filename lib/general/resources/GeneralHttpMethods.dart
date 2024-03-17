@@ -99,6 +99,7 @@ class GeneralHttpMethods {
 
   Future<Map<String, dynamic>> checkActive(String phone) async {
     var token = await _firebaseMessaging.getToken();
+    debugPrint('FCM Token : $token');
     Map<String, dynamic> body = {
       "phone": phone,
       "deviceId": "$token",

@@ -143,6 +143,7 @@ class _MyProductsState extends State<MyProducts> with MyProductsData {
               date: ads[index].date,
               location: ads[index].location,
               userName: ads[index].userName,
+              // userImage: ads[index].userImage,
               // price: ads[index].price,
               fromAppOrNo: ads[index].fromAppOrNo,
               info: ads[index].info, locationPlus: '',

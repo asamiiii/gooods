@@ -257,16 +257,20 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                         userId: data.fkUser, userName: data.userName)),
                     child: Row(
                       children: [
+                        //* userName Image Not Exist in user Model.  (Problem) .
+                        // 1- userName Image Exist json respons.     (Solution).
+                        // 2- userName is Added now in AdsDataModel. (Solution).
                         CircleAvatar(
                           radius: 13,
                           backgroundColor: MyColors.primary,
-                          child: Text(data.userName![0],textAlign:TextAlign.center,style: const TextStyle(
+                          backgroundImage: data.userImage != null? NetworkImage(data.userImage??'') : NetworkImage(''),
+                          child: data.userImage == '' ? Text(data.userName !=null || data.userName.isNotEmpty ? data.userName[0]:'G',textAlign:TextAlign.center,style: const TextStyle(
                               fontSize: 12
-                          ),),
+                          ),) : const SizedBox(),
                         ),
                         const SizedBox(width: 5,),
                         MyText(
-                          title: data.userName,
+                          title: data.userName!=null? data.userName:'Un known',
                           size: 10,
                           color: MyColors.black,
                         ),

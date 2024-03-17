@@ -29,6 +29,8 @@ class AdsDataModel {
   String? lng;
   @JsonKey(name: 'phone')
   String? phone;
+  @JsonKey(name: 'userImage')
+  String? userImage;
   @JsonKey(name: 'whatsapp')
   String? whatsapp;
   @JsonKey(name: 'userPhone')
@@ -77,6 +79,8 @@ class AdsDataModel {
   List<ImageModel> allImg;
   @JsonKey(name: 'comments')
   List<CommentModel> comments;
+  @JsonKey(name: 'isActive')
+  bool? isActive;
 
   AdsDataModel({
     required this.id,
@@ -113,6 +117,8 @@ class AdsDataModel {
     required this.km,
     required this.notes,
     required this.phoneCode,
+    required this.userImage,
+    required this.isActive,
   });
 
   factory AdsDataModel.fromJson(Map<String, dynamic> json) =>

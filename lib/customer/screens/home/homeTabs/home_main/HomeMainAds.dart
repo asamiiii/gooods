@@ -164,6 +164,7 @@ class _HomeMainAdsState extends State<HomeMainAds> {
   }
 
   Widget _buildRowProductView() {
+    // debugPrint('item.userImage : ${item.userImage }');
     return Flexible(
       child: PagedListView<int, AdsModel>(
         physics: const BouncingScrollPhysics(
@@ -171,9 +172,10 @@ class _HomeMainAdsState extends State<HomeMainAds> {
         pagingController: HomeMainData().pagingController,
         builderDelegate: PagedChildBuilderDelegate<AdsModel>(
           noItemsFoundIndicatorBuilder: (context) => _buildNoItemFound(),
+          //! adOwnerImg is Empty | 
           itemBuilder: (context, item, index) => ProductRow(
             index: index,
-            model: item, adOwnerImg: '',
+            model: item, adOwnerImg: item.info?.userImage??'',
           ),
         ),
       ),

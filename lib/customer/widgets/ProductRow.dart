@@ -50,6 +50,8 @@ class ProductRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('isActive : ${model.info?.isActive}');
+    debugPrint('adOwnerImg : $adOwnerImg');
     return InkWell(
       onTap: () => AutoRouter.of(context)
           .push(ProductDetailsRoute(model: model, info: model.info!)),
@@ -125,13 +127,32 @@ class ProductRow extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      CircleAvatar(
-                        radius: 13,
-                        backgroundColor: colors[colorIndex = random.nextInt(18)],
-                        backgroundImage: NetworkImage(adOwnerImg),
-                        child:adOwnerImg!=""?const SizedBox():Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
-                          fontSize: 12
-                        ),),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 15,
+                            backgroundColor: colors[colorIndex = random.nextInt(18)],
+                            backgroundImage: NetworkImage(adOwnerImg),
+                            child:adOwnerImg != "" ? const SizedBox() : Text(model.userName != null? model.userName![0]:'G',textAlign:TextAlign.center,style: const TextStyle(
+                              fontSize: 12
+                            ),),
+                          ),
+                          const Positioned(
+                            right: 3,
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor:Colors.white,
+                            ),
+                          ),
+                          Positioned(
+                            right: 4,
+                            top: 1,
+                            child: CircleAvatar(
+                              radius: 5,
+                              backgroundColor:model.info?.isActive==true ? Colors.green:Colors.grey,
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(width: 5,),
                       // Icon(

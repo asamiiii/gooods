@@ -45,6 +45,8 @@ AdsDataModel _$AdsDataModelFromJson(Map<String, dynamic> json) => AdsDataModel(
       km: json['elMamsha'] as int,
       notes: json['notes'] as String?,
       phoneCode: json['phoneCode'] as String?,
+      userImage: json['userImage'] as String?,
+      isActive: json['isActive'] as bool?
     );
 
 Map<String, dynamic> _$AdsDataModelToJson(AdsDataModel instance) =>
@@ -83,4 +85,6 @@ Map<String, dynamic> _$AdsDataModelToJson(AdsDataModel instance) =>
       'video': instance.video,
       'allImg': instance.allImg,
       'comments': instance.comments,
+      'userImage':instance.userImage,
+      'isActive':instance.isActive
     };

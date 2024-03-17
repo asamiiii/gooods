@@ -14,6 +14,7 @@ class AdsModel {
       required this.img,
       required this.date,
       required this.userName,
+      // required this.userImage,
       required this.location,
       required this.lat,
       required this.lng,
@@ -34,6 +35,7 @@ class AdsModel {
   String date;
   @JsonKey(name: 'userName')
   String? userName;
+  
   @JsonKey(name: 'locationPlus')
   String? locationPlus;
   @JsonKey(name: 'location')

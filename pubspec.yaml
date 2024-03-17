@@ -91,6 +91,8 @@ dependencies:
   geocode: ^1.0.2
   geocoder:
 
+  fvm: 
+
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

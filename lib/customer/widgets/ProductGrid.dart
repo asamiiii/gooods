@@ -140,16 +140,36 @@ class ProductGrid extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      CircleAvatar(
-                        radius: 13,
-                        backgroundColor: colors[colorIndex = random.nextInt(18)],
-                        child: Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
-                            fontSize: 12
-                        ),),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 15,
+                            backgroundColor: colors[colorIndex = random.nextInt(18)],
+                            backgroundImage: NetworkImage(model.info?.userImage??''),
+                            child:model.info?.userImage != null ? const SizedBox() : Text(model.userName != null? model.userName![0]:'G',textAlign:TextAlign.center,style: const TextStyle(
+                              fontSize: 12
+                            ),),
+                          ),
+                          const Positioned(
+                            right: 3,
+                            child: CircleAvatar(
+                              radius: 6,
+                              backgroundColor:Colors.white,
+                            ),
+                          ),
+                          Positioned(
+                            right: 4,
+                            top: 1,
+                            child: CircleAvatar(
+                              radius: 5,
+                              backgroundColor:model.info?.isActive==true ? Colors.green:Colors.grey,
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(width: 5,),
                       MyText(
-                        title: model.userName!,
+                        title: model.userName??'',
                         size: 8,
                         color: MyColors.blackOpacity,
                       ),

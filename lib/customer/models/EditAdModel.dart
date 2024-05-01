@@ -14,6 +14,7 @@ class EditAdModel {
     required this.img,
     required this.date,
     required this.userName,
+    required this.userImage,
     required this.location,
     required this.lat,
     required this.lng,
@@ -34,6 +35,8 @@ class EditAdModel {
   String date;
   @JsonKey(name: 'userName')
   String userName;
+  @JsonKey(name: 'userImage')
+  String userImage;
   @JsonKey(name: 'location')
   String location;
   @JsonKey(name: 'lat')

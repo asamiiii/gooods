@@ -13,6 +13,7 @@ ReplyModel _$ReplyModelFromJson(Map<String, dynamic> json) => ReplyModel(
       creationDate: json['creationDate'] as String,
       userName: json['userName'] as String,
       fKUser: json['fK_User'] as String,
+      userImage: json['userImage'] as String?,
     );
 
 Map<String, dynamic> _$ReplyModelToJson(ReplyModel instance) =>
@@ -23,4 +24,5 @@ Map<String, dynamic> _$ReplyModelToJson(ReplyModel instance) =>
       'creationDate': instance.creationDate,
       'userName': instance.userName,
       'fK_User': instance.fKUser,
+      'userImage': instance.userImage,
     };

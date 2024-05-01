@@ -21,8 +21,8 @@ class AddImagesData {
 
   void navigateToDetails(BuildContext context, OffersHeaderModel headerModel) {
     var images = addOfferCubit.state.images;
-    if (images.length > 5) {
-      LoadingDialog.showSimpleToast("ادخل علي الاكثر ٥ صور");
+    if (images.length > 15) {
+      LoadingDialog.showSimpleToast("ادخل علي الاكثر 15 صوره");
       return;
     }
     if (images.isNotEmpty) {

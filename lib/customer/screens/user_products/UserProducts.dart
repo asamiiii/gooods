@@ -39,10 +39,12 @@ String ownerImage="";
     return BlocBuilder<AddOwnerCubit, AddOwnerState>(
       bloc: addOwnerCubit,
       builder: (context, state) {
-
         if (state is AddOwnerUpdated) {
           debugPrint(state.model!.toJson().toString());
           ownerImage=state.model!.imgProfile;
+          // var user = context.watch<UserCubit>().state.model;
+          debugPrint('User Id --> ${user.id}');
+          // debugPrint('fk --> ${state.model.}');
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -124,14 +126,14 @@ String ownerImage="";
                       color: MyColors.black,
                     ),
                   ),
-                  TitleButton(
+                  state.model?.id != user.id? TitleButton(
                       iconData: Icons.wifi,
-                      title: "متابعة",
+                      title:state.model!.showFollow! ?"الغاء المتابعة": "متابعة",
                       iconColor: state.model!.showFollow!
-                          ? MyColors.primary
+                          ? Colors.blueAccent
                           : Colors.black87,
                       onTap: () =>
-                          setAddUserToFollowers(context, widget.userId)),
+                          setAddUserToFollowers(context, widget.userId)):const SizedBox(),
                 ],
               ),
               Visibility(

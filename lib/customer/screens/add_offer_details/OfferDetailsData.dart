@@ -177,12 +177,12 @@ class OfferDetailsData {
     adsPhoneCubit.onUpdatePrice(showPrice: value);
   }
 
-  void setFileVideo() async {
-    var video = await Utils.getVideo();
-    if (video != null) {
-      fileCubit.onUpdateData(video);
-    }
-  }
+  // void setFileVideo() async {
+  //   var video = await Utils.getVideo();
+  //   if (video != null) {
+  //     fileCubit.onUpdateData(video);
+  //   }
+  // }
 
   void setAddOffer(BuildContext context, AddAdsModel model) {
     String? valid = Validator().validatePhone(value: phone.text);
@@ -198,10 +198,10 @@ class OfferDetailsData {
       LoadingDialog.showSimpleToast("قم بادخال سعر للإعلان");
       return;
     }
-    if (lastCat == null) {
-      LoadingDialog.showSimpleToast("ادخل القسم التابع للإعلان");
-      return;
-    }
+    // if (lastCat == null) {
+    //   LoadingDialog.showSimpleToast("ادخل القسم التابع للإعلان");
+    //   return;
+    // }
     List<String> props = descCubit.state.descriptions!
         .map((e) => "${e.title} ${e.value}")
         .toList();

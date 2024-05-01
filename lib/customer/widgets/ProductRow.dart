@@ -18,7 +18,7 @@ class ProductRow extends StatelessWidget {
   final AdsModel model;
   final Color color;
   String adOwnerImg;
-  int colorIndex=0;
+  int colorIndex = 0;
   List colors = [
     Colors.red,
     Colors.pink,
@@ -75,7 +75,7 @@ class ProductRow extends StatelessWidget {
                     size: 10,
                     color: MyColors.greenColor,
                   ),
-                 const SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -88,7 +88,7 @@ class ProductRow extends StatelessWidget {
                           color: MyColors.primary,
                         ),
                       ),
-                    const  SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Row(
@@ -96,44 +96,57 @@ class ProductRow extends StatelessWidget {
                           Icon(
                             Icons.comment_outlined,
                             size: 20,
-                            color:  MyColors.grey,
+                            color: MyColors.grey,
                           ),
                           MyText(
                               title: "${model.countComment}",
                               size: 8,
-                              color:   MyColors.blackOpacity),
+                              color: MyColors.blackOpacity),
                         ],
                       ),
-                    const  Spacer(),
+                      const Spacer(),
                       Icon(
                         Icons.watch_later_outlined,
                         size: 17,
                         color: MyColors.grey,
                       ),
-                    const  SizedBox(
+                      const SizedBox(
                         width: 2,
                       ),
                       MyText(
                         title: model.date,
                         size: 7,
-                        color:  MyColors.blackOpacity,
+                        color: MyColors.blackOpacity,
                       ),
                     ],
                   ),
-                 const SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     children: [
+                      adOwnerImg != ""? ClipOval(
+                        child: CachedImage(url:adOwnerImg,width: 30,height:30,)):
                       CircleAvatar(
-                        radius: 13,
-                        backgroundColor: colors[colorIndex = random.nextInt(18)],
-                        backgroundImage: NetworkImage(adOwnerImg),
-                        child:adOwnerImg!=""?const SizedBox():Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
-                          fontSize: 12
-                        ),),
+                        radius: 15,
+                        backgroundColor:
+                            colors[0
+                              // colorIndex = random.nextInt(18)
+                              ],
+                        // backgroundImage: NetworkImage(adOwnerImg),
+                        child: adOwnerImg != ""
+                            ? const SizedBox()
+                            : Text(
+                                model.userName != null
+                                    ? model.userName![0]
+                                    : 'G',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 12),
+                              ),
                       ),
-                      const SizedBox(width: 5,),
+                      const SizedBox(
+                        width: 5,
+                      ),
                       // Icon(
                       //   Icons.person_outline,
                       //   size: 20,
@@ -143,22 +156,22 @@ class ProductRow extends StatelessWidget {
                         child: MyText(
                           title: model.userName ?? "",
                           size: 8,
-                          color: MyColors.blackOpacity, 
+                          color: MyColors.blackOpacity,
                         ),
                       ),
-                    const  Spacer(),
+                      const Spacer(),
                       Icon(
                         Icons.location_pin,
                         size: 20,
-                        color:  MyColors.grey,
+                        color: MyColors.grey,
                       ),
-                     const SizedBox(
+                      const SizedBox(
                         width: 2,
                       ),
                       MyText(
                         title: model.locationPlus ?? "",
                         size: 8,
-                        color:  MyColors.blackOpacity,
+                        color: MyColors.blackOpacity,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -170,7 +183,8 @@ class ProductRow extends StatelessWidget {
               url: model.img,
               width: 120,
               height: 100,
-              colorFilter:const ColorFilter.mode(Colors.black12, BlendMode.darken),
+              colorFilter:
+                  const ColorFilter.mode(Colors.black12, BlendMode.darken),
               alignment: Alignment.topLeft,
               borderRadius: BorderRadius.circular(5),
               child: Visibility(

@@ -85,7 +85,12 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                         state.model!.adsData.id,
                       ),
                       _buildProductImages(context, state.model!.adsData.allImg),
-                      _buildContactView(context, state.model!.adsData, user,state.model!.adsData.id,),
+                      _buildContactView(
+                        context,
+                        state.model!.adsData,
+                        user,
+                        state.model!.adsData.id,
+                      ),
                       _buildCommentList(user, state.model!.adsData),
                       Visibility(
                         visible: state.model!.adsData.video != null,
@@ -172,6 +177,7 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
       },
     );
   }
+
 //her location fayyyyyyyyyyyyyyyyyyyyyyyyyyyz
   Widget _buildHeader(BuildContext context, AdsDataModel data, UserModel user) {
     return Container(
@@ -185,26 +191,27 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyText(
-                      title: data.title,
-                      size: 12,
-                      color: MyColors.greenColor,
-                    ),
-                    Row(children: [
-                      const Icon(Icons.location_on_outlined,color:Colors.grey),
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyText(
+                    title: data.title,
+                    size: 12,
+                    color: MyColors.greenColor,
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on_outlined,
+                          color: Colors.grey),
                       MyText(
                         title: data.location!.split(",")[0],
                         size: 12,
                         color: MyColors.grey,
                       ),
-                    ],)
-
-                  ],
-                )
-              ),
+                    ],
+                  )
+                ],
+              )),
               Visibility(
                 visible: data.showPrice,
                 child: Container(
@@ -260,13 +267,30 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                         CircleAvatar(
                           radius: 13,
                           backgroundColor: MyColors.primary,
-                          child: Text(data.userName![0],textAlign:TextAlign.center,style: const TextStyle(
-                              fontSize: 12
-                          ),),
+                          backgroundImage: data.userImage != null
+                              ? NetworkImage(data.userImage ?? '')
+                              : NetworkImage(''),
+                          child: data.userImage == ''
+                              ? Text(
+                                  data.userName != null ||
+                                          data.userName.isNotEmpty
+                                      ? data.userName[0]
+                                      : 'G',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 12
+                                      // ),),
+                                      ),
+                                )
+                              : const SizedBox(),
                         ),
-                        const SizedBox(width: 5,),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         MyText(
-                          title: data.userName,
+                          // title: data.userName,
+                          title: data.userName != null
+                              ? data.userName
+                              : 'Un known',
                           size: 10,
                           color: MyColors.black,
                         ),
@@ -331,171 +355,182 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Visibility(
-        // ignore: sort_child_properties_last
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(descList.length, (index) {
-                return _buildDetailsItem(descList[index],fromApp);
-              }),
-            ),
-            MyText(
-              title: notes,
-              size: 11,
-              color: MyColors.black,
-            )
-          ],
-        ),
-        visible: fromApp,
-        replacement:Column(
-          children: [
-            _buildDetailsItem(details,fromApp),
-          ],
-        )
-      ),
+          // ignore: sort_child_properties_last
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(descList.length, (index) {
+                  return _buildDetailsItem(descList[index], fromApp);
+                }),
+              ),
+              MyText(
+                title: notes,
+                size: 11,
+                color: MyColors.black,
+              )
+            ],
+          ),
+          visible: fromApp,
+          replacement: Column(
+            children: [
+              _buildDetailsItem(details, fromApp),
+            ],
+          )),
     );
   }
 
 // by Ahmed Fayez (Abo Hamza)
-  Widget _descTextFormat(String value,bool fromApp) {
+  Widget _descTextFormat(String value, bool fromApp) {
     int idx = value.indexOf("؟");
-    bool found=value.contains("حالة السيارة");
+    bool found = value.contains("حالة السيارة");
     print("gffffffffff$fromApp");
-    List lines=value.split("\n");
+    List lines = value.split("\n");
     List parts = [];
-    if(fromApp==false)
-      {
-        parts.clear();
-        print("herrrrrrrrrrrrrrr");
-        for(int i=0;i<lines.length;i++)
-        {
-          int idxx = lines[i].indexOf("؟");
-          bool found=lines[i].contains("حالة السيارة");
-          if (idxx > 1) {
-            parts.add( [
-              lines[i].substring(0, idxx - 1).trim(),
-              lines[i].substring(idxx + 1).trim()
-            ]);
-          } else if(found){
-            parts.add([lines[i].substring(0,12),lines[i].substring(13,lines[i].length)]);
-          }else{
-            parts.add([lines[i]]);
-          }
+    if (fromApp == false) {
+      parts.clear();
+      print("herrrrrrrrrrrrrrr");
+      for (int i = 0; i < lines.length; i++) {
+        int idxx = lines[i].indexOf("؟");
+        bool found = lines[i].contains("حالة السيارة");
+        if (idxx > 1) {
+          parts.add([
+            lines[i].substring(0, idxx - 1).trim(),
+            lines[i].substring(idxx + 1).trim()
+          ]);
+        } else if (found) {
+          parts.add([
+            lines[i].substring(0, 12),
+            lines[i].substring(13, lines[i].length)
+          ]);
+        } else {
+          parts.add([lines[i]]);
         }
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: parts.length,
-          itemBuilder: (BuildContext context, int index) {
-            return parts[index].length==2? Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: const BoxDecoration(color: Color(0xb32a3b55)),
-                    child: Text(
-                      parts[index][0],
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white),
+      }
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: parts.length,
+        itemBuilder: (BuildContext context, int index) {
+          return parts[index].length == 2
+              ? Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        decoration:
+                            const BoxDecoration(color: Color(0xb32a3b55)),
+                        child: Text(
+                          parts[index][0],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
-                    child: Text(
-                      parts[index][1],
-                      textAlign: TextAlign.center,
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        decoration:
+                            const BoxDecoration(color: Color(0x1a2a3b55)),
+                        child: Text(
+                          parts[index][1],
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
-            ) :Text(parts[index][0]);
-          }, separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(height: 5,);
+                  ],
+                )
+              : Text(parts[index][0]);
         },
-        );
-
-      }else
-        {
-          if (idx > 1) {
-            parts = [
-              value.substring(0, idx - 1).trim(),
-              value.substring(idx + 1).trim()
-            ];
-          } else if(found){
-            parts = [value.substring(0,12),value.substring(13,value.length)];
-          }else{
-            parts = [value];
-          }
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 1,
-            itemBuilder: (BuildContext context, int index) {
-              return idx > 1
-                  ? Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: const BoxDecoration(color: Color(0xb32a3b55)),
-                      child: Text(
-                        parts[0],
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
-                      child: Text(
-                        parts[1],
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-                  : found? Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      decoration: const BoxDecoration(color: Color(0xb32a3b55)),
-                      child: Text(
-                        parts[0],
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
-                      child: Text(
-                        parts[1],
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ):Text(parts[0]);
-            },
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(
+            height: 5,
           );
-        }
+        },
+      );
+    } else {
+      if (idx > 1) {
+        parts = [
+          value.substring(0, idx - 1).trim(),
+          value.substring(idx + 1).trim()
+        ];
+      } else if (found) {
+        parts = [value.substring(0, 12), value.substring(13, value.length)];
+      } else {
+        parts = [value];
+      }
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 1,
+        itemBuilder: (BuildContext context, int index) {
+          return idx > 1
+              ? Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        decoration:
+                            const BoxDecoration(color: Color(0xb32a3b55)),
+                        child: Text(
+                          parts[0],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        decoration:
+                            const BoxDecoration(color: Color(0x1a2a3b55)),
+                        child: Text(
+                          parts[1],
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : found
+                  ? Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            decoration:
+                                const BoxDecoration(color: Color(0xb32a3b55)),
+                            child: Text(
+                              parts[0],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            decoration:
+                                const BoxDecoration(color: Color(0x1a2a3b55)),
+                            child: Text(
+                              parts[1],
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(parts[0]);
+        },
+      );
+    }
   }
 
-  Widget _buildDetailsItem(String value,bool fromApp) {
+  Widget _buildDetailsItem(String value, bool fromApp) {
     return Container(
       margin: const EdgeInsets.only(top: 5),
-      child: _descTextFormat(value,fromApp),
+      child: _descTextFormat(value, fromApp),
     );
   }
 
@@ -537,7 +572,7 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
   }
 
   Widget _buildContactView(
-      BuildContext context, AdsDataModel data, UserModel user,int id) {
+      BuildContext context, AdsDataModel data, UserModel user, int id) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       margin: const EdgeInsets.symmetric(vertical: 15),
@@ -547,36 +582,51 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
           Row(
             children: [
               Expanded(
-                flex: 1,
-                child: Row(
-                  children:  [
-                    Icon(Icons.announcement,size: 20,color: MyColors.blackOpacity,),
-                    const SizedBox(width: 10,),
-                    Text(
-                      "رقم الاعلان",
-                      style: TextStyle(color: MyColors.blackOpacity,fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )
-              ),
+                  flex: 1,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.announcement,
+                        size: 20,
+                        color: MyColors.blackOpacity,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "رقم الاعلان",
+                        style: TextStyle(
+                            color: MyColors.blackOpacity,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )),
               Expanded(
                 flex: 2,
                 child: Container(
-                  // decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
-                  child: Row(children: [
+                    // decoration: const BoxDecoration(color: Color(0x1a2a3b55)),
+                    child: Row(
+                  children: [
                     Text(
                       "${id}",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Color(0xff797979),fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          color: Color(0xff797979),
+                          fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(width: 5,),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     const Text(
                       "#",
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic),
                     ),
-                  ],)
-                ),
+                  ],
+                )),
               ),
             ],
           ),
@@ -759,6 +809,8 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
 
   Widget _buildCommentView(CommentModel model, UserModel user, int index,
       AdsDataModel adsDataModel) {
+    debugPrint('User ID : ${user.id}');
+    debugPrint('model fKUser : ${model.fKUser}');
     return Column(
       children: [
         Container(
@@ -776,27 +828,52 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                     userId: model.fKUser, userName: model.userName)),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 13,
-                      backgroundColor: MyColors.primary,
-                      child: Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
-                          fontSize: 12
-                      ),),
-                    ),
+                    //!
+                    model.userImage != null
+                        ? ClipOval(
+                            child: CachedImage(
+                            url: model.userImage ?? '',
+                            width: 30,
+                            height: 30,
+                          ))
+                        : CircleAvatar(
+                            radius: 15,
+                            backgroundColor:
+                                colors[0
+                                  // colorIndex = random.nextInt(18)
+                                  ],
+                            // backgroundImage: NetworkImage(adOwnerImg),
+                            child: model.userImage != null
+                                ? const SizedBox()
+                                : Text(
+                                    model.userName != null
+                                        ? model.userName[0]
+                                        : 'G',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                          ),
+                    // CircleAvatar(
+                    //   radius: 13,
+                    //   backgroundColor: MyColors.primary,
+                    //   child: Text(model.userName[0],textAlign:TextAlign.center,style: const TextStyle(
+                    //       fontSize: 12
+                    //   ),),
+                    // ),
                     const SizedBox(
                       width: 10,
                     ),
                     MyText(
                       title: model.userName,
                       size: 12,
-                      color: adsDataModel.fkUser == user.id
+                      color: model.fKUser == user.id
                           ? Colors.blue
                           : Colors.black87,
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    adsDataModel.fkUser == user.id
+                    model.fKUser == user.id
                         ? const Icon(
                             Icons.mic,
                             size: 20,
@@ -881,9 +958,11 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
               CircleAvatar(
                 radius: 13,
                 backgroundColor: MyColors.primary,
-                child: Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
-                    fontSize: 12
-                ),),
+                child: Text(
+                  model.userName![0],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 12),
+                ),
               ),
               MyText(title: model.userName, size: 10, color: Colors.black87),
               const Spacer(),
@@ -1116,18 +1195,18 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                       children: [
                         Expanded(
                           child: CachedImage(
-                              url: relatedAds[index].img,
-                              width: MediaQuery.of(context).size.width - 50,
-                              colorFilter: const ColorFilter.mode(
-                                Colors.black12,
-                                BlendMode.darken,
-                              ),
-                              alignment: Alignment.topLeft,
-                              fit: BoxFit.cover,
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5)),
-                              ),
+                            url: relatedAds[index].img,
+                            width: MediaQuery.of(context).size.width - 50,
+                            colorFilter: const ColorFilter.mode(
+                              Colors.black12,
+                              BlendMode.darken,
+                            ),
+                            alignment: Alignment.topLeft,
+                            fit: BoxFit.cover,
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5)),
+                          ),
                         ),
                         Container(
                             decoration: BoxDecoration(
@@ -1238,13 +1317,14 @@ class _ProductDetailsState extends State<ProductDetails> with ProDetailsData {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.only(right: MediaQuery.of(context).size.width/3.5,bottom:MediaQuery.of(context).size.height/50 ),
+                padding: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width / 3.5,
+                    bottom: MediaQuery.of(context).size.height / 50),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Image.asset('assets/images/logoWhite.png',
                         height: 80, width: 80)),
               ),
-
             ],
           );
         } else {

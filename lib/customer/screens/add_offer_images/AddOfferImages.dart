@@ -2,6 +2,7 @@
 
 part of 'AddOfferImagesImports.dart';
 
+
 class AddOfferImages extends StatefulWidget {
   final OffersHeaderModel model;
 
@@ -12,6 +13,9 @@ class AddOfferImages extends StatefulWidget {
 }
 
 class _AddOfferImagesState extends State<AddOfferImages> with AddImagesData {
+  final GenericCubit<File?> fileCubit = GenericCubit(null);
+  final TextEditingController file = TextEditingController();
+  // OfferDetailsData offerDetailsData = OfferDetailsData();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +28,57 @@ class _AddOfferImagesState extends State<AddOfferImages> with AddImagesData {
     );
   }
 
+  // Widget _buildViewContainer(BuildContext context) {
+  //   return Column(
+  //     children: [
+  //       _buildImageType("اضف علي الأكثر 15 صوره للاعلان", true, context),
+  //       BlocBuilder<AddAdsImagesCubit, AddAdsImagesState>(
+  //         bloc: addOfferCubit,
+  //         builder: (context, state) {
+  //           return Flexible(
+  //             child: ReorderableListView(
+  //               padding: const EdgeInsets.all(25),
+  //               onReorder: reorderData,
+  //               children: List.generate(state.images.length, (index) {
+  //                 return _buildImagesView(context, state.images[index]);
+  //               }),
+  //             ),
+  //           );
+  //         },
+  //       ),
+  //       DefaultButton(
+  //         margin: const EdgeInsets.all(20),
+  //         title: "استمرار",
+  //         onTap: () => navigateToDetails(context, widget.model),
+  //       ),
+  //     ],
+  //   );
+  // }
   Widget _buildViewContainer(BuildContext context) {
     return Column(
       children: [
-        _buildImageType("اضف ٥ صور للاعلان", true, context),
+        _buildImageType("اضف علي الأكثر 15 صوره للاعلان", true, context),
+        BlocConsumer<GenericCubit<File?>, GenericState<File?>>(
+          bloc: fileCubit,
+          listener: (_, state) {
+            if (state.data != null) {
+              file.text = state.data!.path.split("/").last;
+            }
+          },
+          builder: (_, state) {
+            return InkWellTextField(
+              label: "هل ترغب فى ارفاق فديو ؟",
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              controller: file,
+              icon: Icon(
+                Icons.file_upload,
+                size: 25,
+                color: MyColors.primary,
+              ),
+              onTab: () => setFileVideo(),
+            );
+          },
+        ),
         BlocBuilder<AddAdsImagesCubit, AddAdsImagesState>(
           bloc: addOfferCubit,
           builder: (context, state) {
@@ -49,6 +100,13 @@ class _AddOfferImagesState extends State<AddOfferImages> with AddImagesData {
         ),
       ],
     );
+  }
+
+  void setFileVideo() async {
+    var video = await Utils.getVideo();
+    if (video != null) {
+      fileCubit.onUpdateData(video);
+    }
   }
 
   Widget _buildImageType(String title, bool multiple, BuildContext context) {
@@ -108,4 +166,6 @@ class _AddOfferImagesState extends State<AddOfferImages> with AddImagesData {
       ),
     );
   }
+
+
 }

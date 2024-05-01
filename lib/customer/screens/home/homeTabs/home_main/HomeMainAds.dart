@@ -173,7 +173,8 @@ class _HomeMainAdsState extends State<HomeMainAds> {
           noItemsFoundIndicatorBuilder: (context) => _buildNoItemFound(),
           itemBuilder: (context, item, index) => ProductRow(
             index: index,
-            model: item, adOwnerImg: '',
+            // model: item, adOwnerImg: '',
+            model: item, adOwnerImg: item.info?.userImage??'',
           ),
         ),
       ),

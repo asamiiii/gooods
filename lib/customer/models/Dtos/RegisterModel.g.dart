@@ -15,7 +15,7 @@ RegisterModel _$RegisterModelFromJson(Map<String, dynamic> json) =>
       projectName: json['projectName'] as String?,
       user_id: json['user_id'] as String?,
       code: json['code'] as String?,
-          deviceId: json['deviceId'] as String?,
+      deviceId: json['deviceId'] as String?,
     );
 
 Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>

@@ -45,7 +45,7 @@ class AddOfferLocData {
     }
   }
 
-  void navigateToLocationAddress(BuildContext context) async {
-    await Utils.navigateToLocationAddress(context);
-  }
+  // void navigateToLocationAddress(BuildContext context) async {
+  //   await Utils.navigateToLocationAddress(context);
+  // }
 }

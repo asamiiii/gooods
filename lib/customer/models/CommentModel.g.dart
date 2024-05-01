@@ -16,6 +16,7 @@ CommentModel _$CommentModelFromJson(Map<String, dynamic> json) => CommentModel(
       replyList: (json['commentReplys'] as List<dynamic>?)
           ?.map((e) => ReplyModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      userImage: json['userImage'] as String?,
     );
 
 Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
       'fK_User': instance.fKUser,
       'fk_AdsDetails': instance.fkAdsDetails,
       'commentReplys': instance.replyList,
+      'userImage': instance.userImage,
     };

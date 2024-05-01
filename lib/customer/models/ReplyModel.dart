@@ -12,6 +12,7 @@ class ReplyModel {
     required this.creationDate,
     required this.userName,
     required this.fKUser,
+    required this.userImage
   });
   @JsonKey(name: 'id')
   int id;
@@ -25,6 +26,8 @@ class ReplyModel {
   String userName;
   @JsonKey(name: 'fK_User')
   String fKUser;
+  @JsonKey(name: 'userImage')
+  String? userImage;
 
   factory ReplyModel.fromJson(Map<String, dynamic> json) =>
       _$ReplyModelFromJson(json);

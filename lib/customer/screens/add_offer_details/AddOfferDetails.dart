@@ -10,6 +10,7 @@ class AddOfferDetails extends StatefulWidget {
   @override
   _AddOfferDetailsState createState() => _AddOfferDetailsState();
 }
+var counterController =TextEditingController() ;
 
 class _AddOfferDetailsState extends State<AddOfferDetails>
     with OfferDetailsData {
@@ -34,7 +35,95 @@ class _AddOfferDetailsState extends State<AddOfferDetails>
             _buildInputFields(),
             _buildListHeader(),
             _buildListSpecification(),
+
+
+
             _buildDescInput(),
+
+            //advert price
+            BlocBuilder<AdsPhoneCubit, AdsPhoneState>(
+              bloc: adsPhoneCubit,
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: state.showPrice,
+                            onChanged: changePriceState),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        MyText(
+                          title: "هل ترغب بتحديد السعر ؟",
+                          size: 10,
+                          color: MyColors.blackOpacity,
+                        )
+                      ],
+                    ),
+                    Offstage(
+                      offstage: !state.showPrice,
+                      child: LabelTextField(
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        controller: price,
+                        type: TextInputType.number,
+                        label: "ادخل سعر الإعلان",
+                        action: TextInputAction.done,
+                        validate: (value) =>
+                            Validator().validateEmpty(value: value),
+                      ),
+                    )
+                  ],
+                );
+              },
+            ),
+            //contact phone
+            BlocBuilder<AdsPhoneCubit, AdsPhoneState>(
+              bloc: adsPhoneCubit,
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: state.showPhone,
+                            onChanged: changePhoneState),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        MyText(
+                          title: "اضافه رقم جوال",
+                          size: 10,
+                          color: MyColors.blackOpacity,
+                        )
+                      ],
+                    ),
+                    Offstage(
+                      offstage: !state.showPhone,
+                      child: LabelTextField(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        controller: phone,
+                        action: TextInputAction.done,
+                        type: TextInputType.phone,
+                        label: "ادخل رقم الجوال",
+                        validate: (value) =>
+                            Validator().validateEmpty(value: value),
+                      ),
+                    )
+                  ],
+                );
+              },
+            ),
+            DropdownTextField<DropDownModel>(
+              label: "هل ترغب فى فتح التعليق ؟",
+              useName: true,
+              selectedItem: replyOptions.first,
+              data: replyOptions,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              validate: (value) =>
+                  Validator().validateDropDown<DropDownModel>(model: value),
+              onChange: (model) => setChangeReplyOption(model),
+            ),
             DefaultButton(
                 margin: const EdgeInsets.all(20),
                 title: "استمرار",
@@ -159,113 +248,32 @@ class _AddOfferDetailsState extends State<AddOfferDetails>
               ),
             ),
             _buildCatsInputs(),
-            //advert price
-            BlocBuilder<AdsPhoneCubit, AdsPhoneState>(
-              bloc: adsPhoneCubit,
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    Row(
-                      children: [
-                        Checkbox(
-                            value: state.showPrice,
-                            onChanged: changePriceState),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        MyText(
-                          title: "هل ترغب بتحديد السعر ؟",
-                          size: 10,
-                          color: MyColors.blackOpacity,
-                        )
-                      ],
-                    ),
-                    Offstage(
-                      offstage: !state.showPrice,
-                      child: LabelTextField(
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        controller: price,
-                        type: TextInputType.number,
-                        label: "ادخل سعر الإعلان",
-                        action: TextInputAction.done,
-                        validate: (value) =>
-                            Validator().validateEmpty(value: value),
-                      ),
-                    )
-                  ],
-                );
-              },
-            ),
-            //contact phone
-            BlocBuilder<AdsPhoneCubit, AdsPhoneState>(
-              bloc: adsPhoneCubit,
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    Row(
-                      children: [
-                        Checkbox(
-                            value: state.showPhone,
-                            onChanged: changePhoneState),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        MyText(
-                          title: "اضافه رقم جوال",
-                          size: 10,
-                          color: MyColors.blackOpacity,
-                        )
-                      ],
-                    ),
-                    Offstage(
-                      offstage: !state.showPhone,
-                      child: LabelTextField(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        controller: phone,
-                        action: TextInputAction.done,
-                        type: TextInputType.phone,
-                        label: "ادخل رقم الجوال",
-                        validate: (value) =>
-                            Validator().validateEmpty(value: value),
-                      ),
-                    )
-                  ],
-                );
-              },
-            ),
 
-            DropdownTextField<DropDownModel>(
-              label: "هل ترغب فى فتح التعليق ؟",
-              useName: true,
-              selectedItem: replyOptions.first,
-              data: replyOptions,
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              validate: (value) =>
-                  Validator().validateDropDown<DropDownModel>(model: value),
-              onChange: (model) => setChangeReplyOption(model),
-            ),
 
-            BlocConsumer<GenericCubit<File?>, GenericState<File?>>(
-              bloc: fileCubit,
-              listener: (_, state) {
-                if (state.data != null) {
-                  file.text = state.data!.path.split("/").last;
-                }
-              },
-              builder: (_, state) {
-                return InkWellTextField(
-                  label: "هل ترغب فى ارفاق فديو ؟",
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  controller: file,
-                  icon: Icon(
-                    Icons.file_upload,
-                    size: 25,
-                    color: MyColors.primary,
-                  ),
-                  onTab: () => setFileVideo(),
-                );
-              },
-            ),
+/////////////////////////////////////////////
+          //video
+          //   BlocConsumer<GenericCubit<File?>, GenericState<File?>>(
+          //     bloc: fileCubit,
+          //     listener: (_, state) {
+          //       if (state.data != null) {
+          //         file.text = state.data!.path.split("/").last;
+          //       }
+          //     },
+          //     builder: (_, state) {
+          //       return InkWellTextField(
+          //         label: "هل ترغب فى ارفاق فديو ؟",
+          //         margin: const EdgeInsets.symmetric(vertical: 10),
+          //         controller: file,
+          //         icon: Icon(
+          //           Icons.file_upload,
+          //           size: 25,
+          //           color: MyColors.primary,
+          //         ),
+          //         onTab: () => setFileVideo(),
+          //       );
+          //     },
+          //   ),
+            /////////////////////////////////
           ],
         ),
       ),
@@ -283,9 +291,12 @@ class _AddOfferDetailsState extends State<AddOfferDetails>
               var children = context
                   .watch<MyDatabase>()
                   .selectChildrenCatsAsync(state.cats[index].id!);
-              return DropdownTextField<Category>(
-                label: "اسم القسم الفرعي",
+
+              return index<=1?DropdownTextField<Category>(
+                label: index==0?"اسم الماركه":index==1?"نوع المركبه":'' ,
+
                 // dropKey: supDept,
+
                 useName: true,
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 validate: (value) =>
@@ -296,7 +307,7 @@ class _AddOfferDetailsState extends State<AddOfferDetails>
                   index,
                   context,
                 ),
-              );
+              ): SizedBox();
             }),
           ),
         );
@@ -322,7 +333,8 @@ class _AddOfferDetailsState extends State<AddOfferDetails>
   }
 
   Widget _buildHeaderRadioGroup(SpecificationHeaderModel model, int index) {
-    return SizedBox(
+    return
+    SizedBox(
       child: DropdownTextField<SpecificationGroupModel>(
           label: model.title,
           margin: const EdgeInsets.symmetric(vertical: 10),
@@ -330,7 +342,12 @@ class _AddOfferDetailsState extends State<AddOfferDetails>
               .validateDropDown<SpecificationGroupModel>(model: value),
           data: model.groupList,
           onChange: (SpecificationGroupModel model) =>
-              selectSpecificHeader(model.id, index, model)),
+              selectSpecificHeader(
+                  model.id, index, model ,
+              ) ,
+
+
+      ),
     );
   }
 

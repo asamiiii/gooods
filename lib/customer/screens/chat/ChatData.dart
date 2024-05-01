@@ -12,7 +12,8 @@ class ChatData {
 
   void setConnectServer(String userId, BuildContext context) async {
      _hubConnection =
-        context.read<HubConnectionBuilder>().withUrl(MainData.chatUrl).build();
+        context.read<HubConnectionBuilder>().withUrl(MainData.chatUrl,).build();
+    
     await _hubConnection.start();
     _hubConnection.onclose((error) => print("error when connect"));
     _hubConnection.on("receiveMessage", _handleIncomingChatMessage);

@@ -12,10 +12,7 @@ import '../../general/widgets/CachedImage.dart';
 import '../../general/widgets/MyText.dart';
 import '../models/AdsModel.dart';
 
-class ProductGrid extends StatelessWidget {
-  final int index;
-  int colorIndex=0;
-  List colors = [
+ List colors = [
     Colors.red,
     Colors.pink,
     Colors.purple,
@@ -35,6 +32,11 @@ class ProductGrid extends StatelessWidget {
     Colors.brown,
     Colors.blueGrey,
   ];
+  
+class ProductGrid extends StatelessWidget {
+  final int index;
+  int colorIndex=0;
+ 
   Random random = Random();
 
   final AdsModel model;
@@ -140,12 +142,25 @@ class ProductGrid extends StatelessWidget {
                   ),
                   Row(
                     children: [
+                      
+                      model.info?.userImage != ""? ClipOval(
+                        child: CachedImage(url:model.info?.userImage??'',width: 30,height:30,)):
                       CircleAvatar(
-                        radius: 13,
-                        backgroundColor: colors[colorIndex = random.nextInt(18)],
-                        child: Text(model.userName![0],textAlign:TextAlign.center,style: const TextStyle(
-                            fontSize: 12
-                        ),),
+                        radius: 15,
+                        backgroundColor:
+                            colors[0
+                              // colorIndex = random.nextInt(18)
+                              ],
+                        // backgroundImage: NetworkImage(adOwnerImg),
+                        child: model.info?.userImage != ""
+                            ? const SizedBox()
+                            : Text(
+                                model.userName != null
+                                    ? model.userName![0]
+                                    : 'G',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 12),
+                              ),
                       ),
                       const SizedBox(width: 5,),
                       MyText(

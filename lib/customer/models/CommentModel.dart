@@ -16,6 +16,7 @@ class CommentModel {
     required this.fKUser,
     required this.fkAdsDetails,
     required this.replyList,
+    required this.userImage
   });
   @JsonKey(name: 'id')
   int id;
@@ -31,6 +32,8 @@ class CommentModel {
   int? fkAdsDetails;
   @JsonKey(name: 'commentReplys')
   List<ReplyModel>? replyList;
+  @JsonKey(name: 'userImage')
+  String? userImage;
 
   factory CommentModel.fromJson(Map<String, dynamic> json) =>
       _$CommentModelFromJson(json);

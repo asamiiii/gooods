@@ -29,6 +29,8 @@ class AdsDataModel {
   String? lng;
   @JsonKey(name: 'phone')
   String? phone;
+  @JsonKey(name: 'userImage')
+  String? userImage;
   @JsonKey(name: 'whatsapp')
   String? whatsapp;
   @JsonKey(name: 'userPhone')
@@ -89,6 +91,7 @@ class AdsDataModel {
     required this.lat,
     required this.lng,
     required this.phone,
+    required this.userImage,
     required this.description,
     required this.countFavorite,
     required this.countComment,

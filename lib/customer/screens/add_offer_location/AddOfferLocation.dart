@@ -16,10 +16,10 @@ class _AddOfferLocationState extends State<AddOfferLocation> {
 
   @override
   void initState() {
-
     log("modeeeel==>${widget.model.toJson()}");
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     log("modeeeel==>${widget.model.toJson()}");
@@ -36,17 +36,29 @@ class _AddOfferLocationState extends State<AddOfferLocation> {
               addOfferLocData.address.text = state.model.address;
             },
             builder: (context, state) {
-              return InkWellTextField(
-                controller: addOfferLocData.address,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                icon: Icon(
-                  Icons.location_pin,
-                  size: 20,
-                  color: MyColors.black,
-                ),
-                label: "الموقع",
-                onTab: () => addOfferLocData.navigateToLocationAddress(context),
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  InkWellTextField(
+                      controller: addOfferLocData.address,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      icon: Icon(
+                        Icons.location_pin,
+                        size: 20,
+                        color: MyColors.black,
+                      ),
+                      label: "الموقع",
+                      onTab: () async {
+                        await Utils.navigateToLocationAddress(context).then(
+                            (value) async => await Utils.navigateToLocationAddress);
+                      }),
+                  MyText(
+                    title:
+                        'من فضلك اضفط مره اخري في حالة تعذر الحصول علي الموقع',
+                    size: 10,
+                  )
+                ],
               );
             },
           ),
@@ -78,8 +90,8 @@ class _AddOfferLocationState extends State<AddOfferLocation> {
             onChange: addOfferLocData.setSelectCity,
             validate: (value) =>
                 Validator().validateDropDown<DropDownModel>(model: value),
-            finData: (filter) async =>
-                await CustomerRepository(context).getCitiesData(addOfferLocData.regionId!),
+            finData: (filter) async => await CustomerRepository(context)
+                .getCitiesData(addOfferLocData.regionId!),
           ),
           DropdownTextField<DropDownModel>(
             label: "اسم الحي",
@@ -88,8 +100,8 @@ class _AddOfferLocationState extends State<AddOfferLocation> {
             onChange: addOfferLocData.setSelectNeighbor,
             validate: (value) =>
                 Validator().validateDropDown<DropDownModel>(model: value),
-            finData: (filter) async =>
-                await CustomerRepository(context).getNeighborsData(addOfferLocData.cityId!),
+            finData: (filter) async => await CustomerRepository(context)
+                .getNeighborsData(addOfferLocData.cityId!),
           ),
         ],
       ),

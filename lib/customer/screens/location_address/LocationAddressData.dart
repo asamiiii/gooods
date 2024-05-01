@@ -6,7 +6,7 @@ class LocationAddressData {
   final GlobalKey<ScaffoldState> _scaffold = GlobalKey<ScaffoldState>();
   final Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> _markers = {};
-  late LocationModel locationModel;
+   LocationModel? locationModel;
   final String apiKey = "AIzaSyDIBH6mfPQ13UnF9aZtmaUQtuu-mQcxxb0";
 
   void getLocationAddress(LatLng position, BuildContext context) async {
@@ -15,7 +15,7 @@ class LocationAddressData {
     String? address = await _getAddress(loc, context);
     locationModel = LocationModel(
         loc.latitude.toString(), loc.longitude.toString(), address!);
-    context.read<LocationCubit>().onLocationUpdated(locationModel);
+    context.read<LocationCubit>().onLocationUpdated(locationModel!);
   }
 
   Future<String?> _getAddress(LatLng latLng, BuildContext context) async {
@@ -53,7 +53,7 @@ class LocationAddressData {
   void _changeLocation(BuildContext context) async {
     context
         .read<LocationCubit>()
-        .onLocationUpdated(locationModel, change: true);
+        .onLocationUpdated(locationModel!, change: true);
     AutoRouter.of(context).pop();
   }
 }

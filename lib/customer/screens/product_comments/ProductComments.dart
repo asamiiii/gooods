@@ -86,6 +86,8 @@ class _ProductCommentsState extends State<ProductComments>
   }
 
   Widget _buildCommentView(CommentModel model, UserModel user, int index) {
+    debugPrint('User ID : ${user.id}');
+    debugPrint('model fKUser : ${model.fKUser}');
     return Column(
       children: [
         Container(
@@ -99,11 +101,26 @@ class _ProductCommentsState extends State<ProductComments>
             children: [
               Row(
                 children: [
-                  const Icon(
-                    Icons.person,
-                    size: 20,
-                    color: Colors.black87,
-                  ),
+                  model.userImage != ""? ClipOval(
+                        child: CachedImage(url:model.userImage??'',width: 30,height:30,)):
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundColor:
+                            colors[0
+                              // colorIndex = random.nextInt(18)
+                              ],
+                        // backgroundImage: NetworkImage(adOwnerImg),
+                        child: model.userImage != ""
+                            ? const SizedBox()
+                            : Text(
+                                model.userName != null
+                                    ? model.userName[0]
+                                    : 'G',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                      ),
+                  const SizedBox(width: 10,),
                   MyText(
                     title: model.userName,
                     size: 10,
@@ -193,11 +210,26 @@ class _ProductCommentsState extends State<ProductComments>
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.person,
-                size: 20,
-                color: Colors.black87,
-              ),
+              model.userImage != null ? ClipOval(
+                        child: CachedImage(url:model.userImage ?? '',width: 30,height:30,)):
+                      CircleAvatar(
+                        radius: 10,
+                        backgroundColor:
+                            colors[0
+                              // colorIndex = random.nextInt(18)
+                              ],
+                        // backgroundImage: NetworkImage(adOwnerImg),
+                        child: model.userImage != ""
+                            ? const SizedBox()
+                            : Text(
+                                model.userName != null
+                                    ? model.userName![0]
+                                    : 'G',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                      ),
+                      const SizedBox(width: 5,),
               MyText(
                 title: model.userName,
                 size: 10,

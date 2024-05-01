@@ -19,6 +19,7 @@ import 'package:heraggoods/customer/models/ReplyModel.dart';
 import 'package:heraggoods/customer/resources/CustomerRepository.dart';
 import 'package:heraggoods/customer/screens/home/homeTabs/home_main/HomeMainImports.dart';
 import 'package:heraggoods/customer/screens/product_comments/comment_cubit/comment_cubit.dart';
+import 'package:heraggoods/customer/widgets/ProductGrid.dart';
 import 'package:heraggoods/customer/widgets/TitleButton.dart';
 import 'package:heraggoods/general/blocs/auth_cubit/auth_cubit.dart';
 import 'package:heraggoods/general/blocs/generic_cubit/generic_cubit.dart';
